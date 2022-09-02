@@ -68,14 +68,14 @@ class _MyHomePageState extends State<MyHomePage> {
       result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SecondPage(textEditingController.text),
+            builder: (context) => SecondPage(true, textEditingController.text),
           )
       );
     } else {
       result = await Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => SecondPage(),
+            builder: (context) => SecondPage(false),
             settings: RouteSettings(
               arguments: textEditingController.text,
             ),
@@ -94,8 +94,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
 class SecondPage extends StatelessWidget {
   final String? _title;
+  final bool passed;
   final textEditingController = TextEditingController(text: "Text from second screen");
-  SecondPage([this._title]);
+  SecondPage([ this.passed = false, this._title]);
 
 
   @override
@@ -107,7 +108,7 @@ class SecondPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: <Widget>[
-            Text("Passed data: $_title"),
+           createTitle() ,
             TextField(
               controller: textEditingController,
               obscureText: false,
@@ -128,6 +129,14 @@ class SecondPage extends StatelessWidget {
         )
       ),
     );
+  }
+    
+  Widget createTitle(){
+
+if (passed){
+return Text("Passed data: $_title");
+}
+      return Text("");
   }
 
   void returnWithValue(BuildContext context) {
